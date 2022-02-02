@@ -1,6 +1,6 @@
 variable "headless" {
   type    = string
-  default = "false"
+  default = "true"
 }
 
 variable "mirror" {
@@ -23,6 +23,7 @@ locals {
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
+  boot_wait         = "40s"
 }
 
 # auto-generated version
@@ -32,7 +33,7 @@ locals {
 
 source "qemu" "default" {
   boot_command     = [
-    "S<enter><wait>",
+    "S<enter><wait10>",
     "dhclient vio0<enter><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
@@ -40,7 +41,7 @@ source "qemu" "default" {
     "ftp -o disklabel.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/disklabel.conf<enter><wait>",
     "sh install.sh < install-chroot.sh && reboot<enter>"
   ]
-  boot_wait        = "40s"
+  boot_wait        = "${local.boot_wait}"
   disk_size        = "${local.disk_size}"
   headless         = "${var.headless}"
   http_directory   = "http"
@@ -61,7 +62,7 @@ source "qemu" "default" {
 
 source "virtualbox-iso" "default" {
   boot_command         = [
-    "S<enter><wait>",
+    "S<enter><wait10>",
     "dhclient em0<enter><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
@@ -69,7 +70,7 @@ source "virtualbox-iso" "default" {
     "ftp -o disklabel.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/disklabel.conf<enter><wait>",
     "sh install.sh < install-chroot.sh && reboot<enter>"
   ]
-  boot_wait            = "20s"
+  boot_wait            = "${local.boot_wait}"
   disk_size            = "${local.disk_size}"
   guest_additions_mode = "disable"
   guest_os_type        = "OpenBSD_64"
