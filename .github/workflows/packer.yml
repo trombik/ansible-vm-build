@@ -1,0 +1,64 @@
+---
+name: packer
+on:
+  - pull_request
+  - push
+jobs:
+  pre_build:
+
+    # A job to see if the entrire jobs should be skipped.
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v3.4.1
+        with:
+          concurrent_skipping: same_content
+          skip_after_successful_duplicate: 'true'
+          paths_ignore: '["**/*.md", "**/docs/**"]'
+          do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
+
+  packer:
+    runs-on: macos-10.15
+    needs:
+      - pre_build
+    if: ${{ needs.pre_build.outputs.should_skip != 'true' }}
+    strategy:
+      matrix:
+        box:
+          - FreeBSD-13.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Cache vagrant boxes
+        uses: actions/cache@v2
+        env:
+          cache-name: vagrant-boxes
+        with:
+          path: ${{ matrix.box }}/packer_cache
+          key: packer_cache-${{ matrix.box }}
+
+      - name: Show vagrant version
+        run: |
+          Vagrant --version
+
+      - name: Show VirtualBox version
+        run: |
+          virtualbox -h
+
+      - name: Show packer version
+        run: |
+          packer --version
+
+      - name: Build
+        run: |
+          bundle exec rake -C "${{ matrix.box }}"
+
