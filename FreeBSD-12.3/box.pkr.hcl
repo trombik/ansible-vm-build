@@ -19,6 +19,7 @@ locals {
 
 # image-related options
 locals {
+  boot_wait         = "20s"
   ssh_timeout       = "60m"
   cpus              = "2"
   memory            = "1024"
@@ -34,12 +35,12 @@ source "qemu" "default" {
   boot_command     = [
     "2<enter><wait10><wait10><wait10>",
     "<enter><wait>",
-    "mdmfs -s 100m md1 /tmp<enter><wait5>",
-    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid vtnet0<enter><wait15>",
+    "mdmfs -s 100m md1 /tmp<enter><wait10>",
+    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid vtnet0<enter><wait20>",
     "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/installerconfig<enter><wait5>",
     "bsdinstall script /tmp/installerconfig && reboot<enter>"
   ]
-  boot_wait        = "10s"
+  boot_wait        = "${local.boot_wait}"
   disk_size        = "${local.disk_size}"
   headless         = "${var.headless}"
   http_directory   = "http"
@@ -62,12 +63,12 @@ source "virtualbox-iso" "default" {
   boot_command         = [
     "2<enter><wait10><wait10>",
     "<enter><wait>",
-    "mdmfs -s 100m md1 /tmp<enter><wait5>",
-    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid em0<enter><wait15>",
+    "mdmfs -s 100m md1 /tmp<enter><wait10>",
+    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid em0<enter><wait20>",
     "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/installerconfig<enter><wait5>",
     "bsdinstall script /tmp/installerconfig && reboot<enter>"
   ]
-  boot_wait            = "10s"
+  boot_wait            = "${local.boot_wait}"
   disk_size            = "${local.disk_size}"
   guest_additions_mode = "disable"
   guest_os_type        = "FreeBSD_64"
