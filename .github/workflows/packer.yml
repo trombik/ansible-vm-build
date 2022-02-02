@@ -60,5 +60,6 @@ jobs:
 
       - name: Build
         run: |
+          export VAGRANT_CLOUD_TOKEN="${{ secrets.VAGRANT_CLOUD_TOKEN }}"
           bundle exec rake -C "${{ matrix.box }}"
 
