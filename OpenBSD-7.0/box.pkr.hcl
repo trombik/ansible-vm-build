@@ -23,6 +23,7 @@ locals {
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
+  boot_wait         = "30s"
 }
 
 # auto-generated version
@@ -33,14 +34,14 @@ locals {
 source "qemu" "default" {
   boot_command     = [
     "S<enter><wait>",
-    "ifconfig vio0 inet autoconf<enter><wait10>",
+    "ifconfig em0 inet autoconf<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
     "ftp -o install-chroot.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-chroot.sh<enter><wait>",
     "ftp -o disklabel.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/disklabel.conf<enter><wait>",
     "sh install.sh < install-chroot.sh && reboot<enter>"
   ]
-  boot_wait        = "40s"
+  boot_wait        = "${local.boot_wait}"
   disk_size        = "${local.disk_size}"
   headless         = "${var.headless}"
   http_directory   = "http"
@@ -62,14 +63,14 @@ source "qemu" "default" {
 source "virtualbox-iso" "default" {
   boot_command         = [
     "S<enter><wait>",
-    "ifconfig em0 inet autoconf<enter><wait10>",
+    "ifconfig em0 inet autoconf<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
     "ftp -o install-chroot.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-chroot.sh<enter><wait>",
     "ftp -o disklabel.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/disklabel.conf<enter><wait>",
     "sh install.sh < install-chroot.sh && reboot<enter>"
   ]
-  boot_wait            = "20s"
+  boot_wait            = "${local.boot_wait}"
   disk_size            = "${local.disk_size}"
   guest_additions_mode = "disable"
   guest_os_type        = "OpenBSD_64"
