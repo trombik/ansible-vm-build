@@ -15,10 +15,6 @@ EOF
 
 sudo pkg install -y lang/python3 py38-ansible rsync
 
-# adjust date before freebsd-update. incorrect time causes freebsd-update to
-# log "expr: illegal option" to stderr, which causes a failure in tests
-sudo ntpdate -b pool.ntp.org
-
 # when the release EoLed, or no update is available, freebsd-update exits with
 # non-zero status.
 sudo freebsd-update --not-running-from-cron fetch || true
