@@ -14,7 +14,7 @@ locals {
   version_minor     = "0"
   iso_checksum_type = "sha256"
   iso_checksum      = "1882f9a23c9800e5dba3dbd2cf0126f552605c915433ef4c5bb672610a4ca3a4"
-  iso_url           = "${var.mirror}/7.0/amd64/install${local.version_major}${local.version_minor}.iso"
+  iso_url           = "${var.mirror}/${local.version_major}.${local.version_minor}/amd64/install${local.version_major}${local.version_minor}.iso"
 }
 
 # image-related options
