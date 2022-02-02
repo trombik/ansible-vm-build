@@ -31,6 +31,7 @@ jobs:
       matrix:
         box:
           - FreeBSD-13.0
+          - FreeBSD-12.3
           - OpenBSD-7.0
     steps:
       - name: Checkout
