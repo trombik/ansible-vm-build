@@ -1,0 +1,29 @@
+require "rspec/core/rake_task"
+
+task :default => ["build"]
+
+desc "build box (default)"
+task "build" do
+  sh "packer build -only virtualbox-iso.default box.pkr.hcl"
+end
+
+desc "up"
+task "up" do
+  Bundler.with_unbundled_env do
+    sh "vagrant up"
+  end
+end
+
+desc "Run rspec"
+task "test" do
+  ENV["HOST"] = "virtualbox"
+  sh "rspec --pattern '../spec/**/*_spec.rb'"
+end
+
+desc "Destroy VM, remove output"
+task "clean" do
+  Bundler.with_unbundled_env do
+    sh "vagrant destroy -f || true"
+  end
+  sh "rm -rf output"
+end
