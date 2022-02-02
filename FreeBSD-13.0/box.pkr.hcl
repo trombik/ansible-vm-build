@@ -27,7 +27,7 @@ locals {
 
 # auto-generated version
 locals {
-  box_version       = formatdate("YYYYMMDD", timestamp())
+  box_version       = formatdate("YYYYMMDD.hhmm", timestamp())
 }
 
 source "qemu" "default" {

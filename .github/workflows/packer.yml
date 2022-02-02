@@ -38,10 +38,10 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
-      - name: Cache vagrant boxes
+      - name: Cache packer_cache
         uses: actions/cache@v2
         env:
-          cache-name: vagrant-boxes
+          cache-name: packer_cache
         with:
           path: ${{ matrix.box }}/packer_cache
           key: packer_cache-${{ matrix.box }}
