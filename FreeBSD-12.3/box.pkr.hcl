@@ -19,7 +19,7 @@ locals {
 
 # image-related options
 locals {
-  boot_wait         = "20s"
+  boot_wait         = "10s"
   ssh_timeout       = "60m"
   cpus              = "2"
   memory            = "1024"
@@ -36,7 +36,7 @@ source "qemu" "default" {
     "2<enter><wait10><wait10><wait10>",
     "<enter><wait>",
     "mdmfs -s 100m md1 /tmp<enter><wait10>",
-    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid vtnet0<enter><wait20>",
+    "dhclient -l /tmp/dhclient.leases -p /tmp/dhclient.pid vtnet0<enter><wait10><wait10><wait10>",
     "fetch -o /tmp/installerconfig http://{{ .HTTPIP }}:{{ .HTTPPort }}/installerconfig<enter><wait5>",
     "bsdinstall script /tmp/installerconfig && reboot<enter>"
   ]
