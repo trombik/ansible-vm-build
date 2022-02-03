@@ -117,19 +117,4 @@ build {
       ]
     }
   }
-  post-processors {
-    post-processor "vagrant" {
-      output               = "{{.Provider}}.box"
-      vagrantfile_template = "vagrantfile_templates/openbsd.rb"
-    }
-    post-processor "vagrant-cloud" {
-      box_tag = "trombik/ansible-openbsd-${local.version_major}.${local.version_minor}-amd64"
-      version = "${local.box_version}"
-    }
-    post-processor "shell-local" {
-      inline = [
-        "bundle exec rake clean",
-      ]
-    }
-  }
 }
