@@ -10,11 +10,14 @@ variable "mirror" {
 
 # OS versions and ISO file
 locals {
+  os_name           = "freebsd"
+  arch              = "amd64"
   version_major     = "12"
   version_minor     = "3"
   iso_checksum_type = "sha512"
   iso_checksum      = "5dd048f8072086c58019c9e18042dc5716d19c2044e96daa2894ddac535712827cf2c8ffbc3098062ea5bfe372bb24f83cc07eae766e4a16a03e1308030af029"
-  iso_url           = "${var.mirror}/releases/ISO-IMAGES/${local.version_major}.${local.version_minor}/FreeBSD-${local.version_major}.${local.version_minor}-RELEASE-amd64-disc1.iso"
+  iso_url           = "${var.mirror}/releases/ISO-IMAGES/${local.version_major}.${local.version_minor}/FreeBSD-${local.version_major}.${local.version_minor}-RELEASE-${local.arch}-disc1.iso"
+  vm_name           = "packer-${local.os_name}-${local.version_major}.${local.version_minor}-${local.arch}"
 }
 
 # image-related options
@@ -56,7 +59,7 @@ source "qemu" "default" {
   ssh_password     = "vagrant"
   ssh_timeout      = "${local.ssh_timeout}"
   ssh_username     = "vagrant"
-  vm_name          = "packer-freebsd-${local.version_major}.${local.version_major}-amd64"
+  vm_name          = "${local.vm_name}"
 }
 
 source "virtualbox-iso" "default" {
@@ -87,7 +90,7 @@ source "virtualbox-iso" "default" {
     ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"],
     ["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"]
   ]
-  vm_name              = "packer-freebsd-${local.version_major}.${local.version_minor}-amd64"
+  vm_name              = "${local.vm_name}"
 }
 
 build {
@@ -107,7 +110,7 @@ build {
   post-processors {
     post-processor "vagrant" {
       output               = "{{.Provider}}.box"
-      vagrantfile_template = "vagrantfile_templates/freebsd.rb"
+      vagrantfile_template = "vagrantfile_templates/${local.os_name}.rb"
     }
     post-processor "shell-local" {
       inline = [
