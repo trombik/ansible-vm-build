@@ -10,11 +10,14 @@ variable "mirror" {
 
 # OS versions and ISO file
 locals {
+  os_name           = "openbsd"
+  arch              = "amd64"
   version_major     = "6"
   version_minor     = "9"
   iso_checksum_type = "sha256"
   iso_checksum      = "140d26548aec680e34bb5f82295414228e7f61e4f5e7951af066014fda2d6e43"
-  iso_url           = "${var.mirror}/${local.version_major}.${local.version_minor}/amd64/install${local.version_major}${local.version_minor}.iso"
+  iso_url           = "${var.mirror}/${local.version_major}.${local.version_minor}/${local.arch}/install${local.version_major}${local.version_minor}.iso"
+  vm_name           = "packer-${local.os_name}-${local.version_major}.${local.version_minor}-${local.arch}"
 }
 
 # image-related options
@@ -58,7 +61,7 @@ source "qemu" "default" {
   ssh_password     = "vagrant"
   ssh_timeout      = "${local.ssh_timeout}"
   ssh_username     = "vagrant"
-  vm_name          = "packer-freebsd-${local.version_major}.${local.version_minor}-amd64"
+  vm_name          = "${local.vm_name}"
 }
 
 source "virtualbox-iso" "default" {
@@ -90,7 +93,7 @@ source "virtualbox-iso" "default" {
     ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"],
     ["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"]
   ]
-  vm_name              = "packer-openbsd-${local.version_major}.${local.version_minor}-amd64"
+  vm_name              = "${local.vm_name}"
 }
 
 build {
@@ -108,7 +111,7 @@ build {
   post-processors {
     post-processor "vagrant" {
       output               = "{{.Provider}}.box"
-      vagrantfile_template = "vagrantfile_templates/openbsd.rb"
+      vagrantfile_template = "vagrantfile_templates/${local.os_name}.rb"
     }
     post-processor "shell-local" {
       inline = [
