@@ -64,6 +64,10 @@ jobs:
         run: |
           packer --version
 
+      - name: Validate HCL
+        run: |
+          (cd "${{ matrix.box }}" && packer validate -only virtualbox-iso.default box.pkr.hcl)
+
       - name: Build
         run: |
           export VAGRANT_CLOUD_TOKEN="${{ secrets.VAGRANT_CLOUD_TOKEN }}"
