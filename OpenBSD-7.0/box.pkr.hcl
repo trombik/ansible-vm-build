@@ -37,7 +37,7 @@ locals {
 
 source "qemu" "default" {
   boot_command     = [
-    "S<enter><wait>",
+    "S<enter><wait10>",
     "ifconfig em0 inet autoconf<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
@@ -66,7 +66,7 @@ source "qemu" "default" {
 
 source "virtualbox-iso" "default" {
   boot_command         = [
-    "S<enter><wait>",
+    "S<enter><wait10>",
     "ifconfig em0 inet autoconf<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
