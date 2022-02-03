@@ -27,7 +27,7 @@ locals {
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
-  boot_wait         = "30s"
+  boot_wait         = "40s"
 }
 
 # auto-generated version
