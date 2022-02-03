@@ -24,7 +24,7 @@ locals {
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
-  boot_wait         = "40s"
+  boot_wait         = "30s"
 }
 
 # auto-generated version
@@ -34,8 +34,8 @@ locals {
 
 source "qemu" "default" {
   boot_command     = [
-    "S<enter><wait10>",
-    "dhclient vio0<enter><wait10>",
+    "S<enter><wait>",
+    "dhclient vio0<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
     "ftp -o install-chroot.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-chroot.sh<enter><wait>",
@@ -63,8 +63,8 @@ source "qemu" "default" {
 
 source "virtualbox-iso" "default" {
   boot_command         = [
-    "S<enter><wait10>",
-    "dhclient em0<enter><wait10>",
+    "S<enter><wait>",
+    "dhclient em0<enter><wait10><wait10>",
     "ftp -o install.conf http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.conf<enter><wait>",
     "ftp -o install.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install.sh<enter><wait>",
     "ftp -o install-chroot.sh http://{{ .HTTPIP }}:{{ .HTTPPort }}/install-chroot.sh<enter><wait>",
