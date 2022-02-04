@@ -78,7 +78,6 @@ source "virtualbox-iso" "default" {
   disk_size            = "${local.disk_size}"
   guest_additions_mode = "disable"
   guest_os_type        = "OpenBSD_64"
-  hard_drive_interface = "scsi"
   headless             = "${var.headless}"
   http_directory       = "http"
   iso_checksum         = "${local.iso_checksum_type}:${local.iso_checksum}"
