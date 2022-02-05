@@ -88,7 +88,6 @@ source "virtualbox-iso" "default" {
   ssh_password         = "vagrant"
   ssh_timeout          = "${local.ssh_timeout}"
   ssh_username         = "vagrant"
-  hard_drive_interface = "scsi"
   vboxmanage           = [
     ["modifyvm", "{{ .Name }}", "--memory", "${local.memory}"],
     ["modifyvm", "{{ .Name }}", "--cpus", "${local.cpus}"],
@@ -96,7 +95,7 @@ source "virtualbox-iso" "default" {
     # XXX disable hostiocache. too many disk I/O crashes VirtualBox.
     # similar issue on FeeBSD was reported before.
     # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=212128
-    ["storagectl", "{{ .Name }}", "--name", "SCSI Controller", "--hostiocache", "off" ]
+    ["storagectl", "{{ .Name }}", "--name", "IDE Controller", "--hostiocache", "off" ]
   ]
   vm_name              = "${local.vm_name}"
 }
