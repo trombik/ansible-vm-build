@@ -34,6 +34,7 @@ jobs:
           - FreeBSD-12.3
           - OpenBSD-7.0
           - OpenBSD-6.9
+          - Ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
