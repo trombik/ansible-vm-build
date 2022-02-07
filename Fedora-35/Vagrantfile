@@ -1,0 +1,13 @@
+require "yaml"
+
+Vagrant.configure("2") do |config|
+  config.vm.define "virtualbox" do |virtualbox|
+    virtualbox.vm.hostname = "virtualbox-Fedora-35"
+    virtualbox.vm.box = "file://virtualbox.box"
+
+    config.vm.provider :virtualbox do |v|
+      v.gui = false
+      v.name = "virtualbox-Fedora-35"
+    end
+  end
+end
