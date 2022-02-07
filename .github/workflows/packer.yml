@@ -36,6 +36,7 @@ jobs:
           - OpenBSD-6.9
           - Ubuntu-20.04
           - Devuan-3
+          - Fedora-35
     steps:
       - name: Checkout
         uses: actions/checkout@v2

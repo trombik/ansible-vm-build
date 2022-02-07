@@ -132,7 +132,6 @@ build {
   post-processors {
     post-processor "vagrant" {
       output               = "{{.Provider}}.box"
-      vagrantfile_template = "vagrantfile_templates/${local.os_name}.rb"
     }
     post-processor "shell-local" {
       inline = [
