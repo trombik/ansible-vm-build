@@ -116,6 +116,7 @@ build {
       "scripts/update.sh",
       "scripts/build-tools.sh",
       "scripts/install-supporting-packages.sh",
+      "scripts/ansible.sh",
       "scripts/motd.sh",
       "scripts/sshd.sh",
       "scripts/virtualbox.sh",
