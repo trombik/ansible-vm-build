@@ -1,2 +1,2 @@
 #!/bin/bash -eux
-dnf -y install ansible
+dnf -y install ansible rsync curl
