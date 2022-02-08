@@ -1,6 +1,6 @@
 variable "headless" {
   type    = string
-  default = "false"
+  default = "true"
 }
 
 variable "mirror" {
