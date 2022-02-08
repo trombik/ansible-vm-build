@@ -1,13 +1,16 @@
 require "yaml"
 
+name = File.basename(Dir.pwd)
+
 Vagrant.configure("2") do |config|
   config.vm.define "virtualbox" do |virtualbox|
-    virtualbox.vm.hostname = "virtualbox-Devuan-3"
-    virtualbox.vm.box = "file://virtualbox.box"
+    virtualbox.vm.hostname = "virtualbox-#{name}"
+    virtualbox.vm.box = "test/#{name}"
+    virtualbox.vm.box_url = "file://virtualbox.box"
 
     config.vm.provider :virtualbox do |v|
       v.gui = false
-      v.name = "virtualbox-Devuan-3"
+      v.name = "virtualbox-#{name}"
     end
   end
 end
