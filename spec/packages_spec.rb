@@ -39,6 +39,10 @@ when "openbsd"
       its(:stdout) { should eq "" }
     end
   end
+when "fedora"
+  describe package "python3-libselinux" do
+    it { should be_installed }
+  end
 end
 
 describe command "python3 --version" do
