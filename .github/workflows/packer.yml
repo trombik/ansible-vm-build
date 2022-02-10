@@ -73,5 +73,50 @@ jobs:
 
       - name: Build
         run: |
-          export VAGRANT_CLOUD_TOKEN=${{ secrets.VAGRANT_CLOUD_TOKEN }}
           bundle exec rake -C "${{ matrix.box }}"
+          ( cd ${{ matrix.box }} && mv virtualbox.box ${{ matrix.box }}.box )
+
+      - name: Upload ${{ matrix.box }}/${{ matrix.box }}.box
+        uses: actions/upload-artifact@v2
+        with:
+          name: boxes
+          path: ${{ matrix.box }}/${{ matrix.box }}.box
+
+  publish:
+
+    # publish boxes to vagrant cloud.
+    #
+    # instead of using preprocessor in packer, upload all boxes when all
+    # packer jobs succeed because matrix is used in packer job, and when a
+    # job in the matrix is failed, other successful job uploads multiple
+    # times.
+    #
+    # A secret, VAGRANT_CLOUD_TOKEN, must be created in the repository.
+    runs-on: macos-10.15
+    needs:
+      - pre_build
+      - packer
+    if: ${{ needs.pre_build.outputs.should_skip != 'true' }}
+    steps:
+
+      - name: Download boxes
+        uses: actions/download-artifact@v2
+        with:
+          name: boxes
+
+      - name: Publish boxes
+        run: |
+          export VAGRANT_CLOUD_TOKEN=${{ secrets.VAGRANT_CLOUD_TOKEN }}
+          YYYYMMDD=`date "+%Y%m%d"`
+          HHMM=`date "+%H%M"`
+
+          ls -al
+          # e.g. FreeBSD-12.3.box FreeBSD-13.0.box ...
+          BOXES=`/bin/echo *-*.box`
+
+          for BOX in ${BOXES}; do
+
+            # e.g. freebsd-12.3
+            NAME=`echo ${BOX} | tr "[:upper:]" "[:lower:]" | sed -e 's/.box//'`
+            Vagrant cloud publish --force --release "trombik/ansible-${NAME}-amd64" "${YYYYMMDD}.${HHMM}" virtualbox "${BOX}"
+          done
