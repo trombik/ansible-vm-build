@@ -110,6 +110,7 @@ build {
       "scripts/vagrant.sh",
       "scripts/sshd.sh",
       "scripts/cleanup.sh",
+      "scripts/minimize.sh",
     ]
   }
 
