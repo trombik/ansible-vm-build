@@ -55,7 +55,7 @@ locals {
 # image-related options
 locals {
   boot_wait         = "10s"
-  ssh_timeout       = "60m"
+  ssh_timeout       = "15m"
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
@@ -76,7 +76,7 @@ source "qemu" "default" {
   shutdown_command = "echo 'vagrant'|sudo -S shutdown -P now"
   ssh_password     = "vagrant"
   ssh_port         = 22
-  ssh_timeout      = "10000s"
+  ssh_timeout      = "${local.ssh_timeout}"
   ssh_username     = "vagrant"
   vm_name          = "${local.vm_name}"
 }
@@ -98,7 +98,7 @@ source "virtualbox-iso" "default" {
   shutdown_command        = "echo 'vagrant'|sudo -S shutdown -P now"
   ssh_password            = "vagrant"
   ssh_port                = 22
-  ssh_timeout             = "10000s"
+  ssh_timeout             = "${local.ssh_timeout}"
   ssh_username            = "vagrant"
   virtualbox_version_file = ".vbox_version"
   vm_name                 = "${local.vm_name}"
