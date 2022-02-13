@@ -8,10 +8,10 @@ The boxes are available at
 
 ## Requirements
 
+* `ruby`
 * `vagrant`
 * `packer`
 * `virtualbox`
-* `ruby`
 
 ## Setting up
 
@@ -21,7 +21,39 @@ bundle install
 
 ## Usage
 
+See the output of `rake -T` in each directory for the summary.
+
+Building a FreeBSD 13.0 box:
+
+
 ```console
 bundle exec rake -C FreeBSD-13.0
+```
+
+The box file name is `virtualbox.box`.
+
+Testing the box you have built:
+
+```console
+bundle exec rake -C FreeBSD-13.0 up test
+```
+
+Cleaning up:
+
+```console
 bundle exec rake -C FreeBSD-13.0 clean
+```
+
+`clean` target does not delete the box file.
+
+Publishing the box:
+
+```console
+bundle exec rake -C FreeBSD-13.0 publish
+```
+
+All in one command:
+
+```console
+bundle exec rake -C FreeBSD-13.0 built up test publish
 ```
