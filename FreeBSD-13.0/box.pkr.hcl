@@ -22,7 +22,7 @@ locals {
 
 # image-related options
 locals {
-  boot_wait         = "13s"
+  boot_wait         = "10s"
   ssh_timeout       = "15m"
   cpus              = "2"
   memory            = "1024"
