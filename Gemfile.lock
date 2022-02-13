@@ -73,6 +73,7 @@ GEM
 PLATFORMS
   amd64-freebsd-14
   x86_64-darwin-19
+  x86_64-linux
 
 DEPENDENCIES
   mime-types (>= 3.3.1)
