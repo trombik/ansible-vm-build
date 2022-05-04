@@ -15,6 +15,7 @@ end
 desc "Run the VM"
 task "up" do
   Bundler.with_unbundled_env do
+    ENV.delete("GEM_HOME")
     sh "vagrant up"
   end
 end
@@ -32,7 +33,7 @@ def box_os_version
 end
 
 def box_user
-  ENV["VAGRANT_CLOUD_USER"] || ENV["USER"]
+  ENV.fetch("VAGRANT_CLOUD_USER", nil) || ENV.fetch("USER", nil)
 end
 
 def publish_command
@@ -62,6 +63,7 @@ task "publish" do
   end
 
   Bundler.with_unbundled_env do
+    ENV.delete("GEM_HOME")
     sh publish_command.to_s
   end
 end
@@ -69,6 +71,7 @@ end
 desc "Destroy VM, remove output"
 task "clean" do
   Bundler.with_unbundled_env do
+    ENV.delete("GEM_HOME")
     sh "vagrant destroy -f || true"
     sh "vagrant box remove test/#{name.shellescape} || true"
   end
