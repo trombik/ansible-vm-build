@@ -9,7 +9,8 @@ options = Net::SSH::Config.for(host)
 options = {}
 ssh_config = ""
 Bundler.with_unbundled_env do
-  ssh_config = `vagrant ssh-config #{ENV["HOST"]}`
+  ENV.delete("GEM_HOME")
+  ssh_config = `vagrant ssh-config #{ENV.fetch("HOST", nil)}`
 end
 
 ssh_config.each_line do |line|
