@@ -83,9 +83,27 @@ jobs:
           name: boxes
           path: ${{ matrix.box }}/${{ matrix.box }}.box
 
+  create_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - id: version
+        run: |
+          YYYYMMDD=`date "+%Y%m%d"`
+          HHMM=`date "+%H%M"`
+          echo "::set-output name=version::${YYYYMMDD}.${HHMM}"
+
   publish:
 
-    # publish boxes to vagrant cloud.
+    # publish boxes when:
+    #
+    # * the workflow should not be skipped, and
+    # * the event that triggered the workflow is push to branch 'main', i.e.
+    #   merge into 'main' from a PR
+    #
+    # or when:
+    # * the event that triggered the workflow is schedule, i.e. cron
     #
     # instead of using preprocessor in packer, upload all boxes when all
     # packer jobs succeed because matrix is used in packer job, and when a
@@ -97,7 +115,8 @@ jobs:
     needs:
       - pre_build
       - packer
-    if: ${{ needs.pre_build.outputs.should_skip != 'true' }}
+      - create_version
+    if: ${{ (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'schedule') }}
     steps:
 
       - name: Download boxes
@@ -105,11 +124,10 @@ jobs:
         with:
           name: boxes
 
-      - name: Publish boxes
+      - name: Publish boxes to vagrant cloud
         run: |
           export VAGRANT_CLOUD_TOKEN=${{ secrets.VAGRANT_CLOUD_TOKEN }}
-          YYYYMMDD=`date "+%Y%m%d"`
-          HHMM=`date "+%H%M"`
+          VERSION=${{ needs.create_version.outputs.version }}
 
           ls -al
           # e.g. FreeBSD-12.3.box FreeBSD-13.0.box ...
@@ -119,5 +137,53 @@ jobs:
 
             # e.g. freebsd-12.3
             NAME=`echo ${BOX} | tr "[:upper:]" "[:lower:]" | sed -e 's/.box//'`
-            Vagrant cloud publish --force --release "trombik/ansible-${NAME}-amd64" "${YYYYMMDD}.${HHMM}" virtualbox "${BOX}"
+            Vagrant cloud publish --force --release "trombik/ansible-${NAME}-amd64" "${VERSION}" virtualbox "${BOX}"
           done
+
+  release:
+
+    # create release, upload the box files to the release page.
+    #
+    # vagrant cloud has a rather strict rate limit. when CI in roles downloads
+    # a box, the CI caches the box file. however, the files are cached only
+    # when successful at the end of the CI. if you keep fixing, vagrant cloud
+    # eventually returns HTTP 429 status code. workaround the issue by
+    # uploading box files to the release page on GitHub.
+    #
+    # see:
+    # https://www.vagrantup.com/vagrant-cloud/request-limits
+    runs-on: ubuntu-latest
+    needs:
+      - pre_build
+      - packer
+      - create_version
+    if: ${{ (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'schedule') }}
+    steps:
+
+      - name: Download boxes
+        uses: actions/download-artifact@v2
+        with:
+          name: boxes
+
+      - name: Rename box files
+        run: |
+          ls -al
+
+          # e.g. FreeBSD-12.3.box FreeBSD-13.0.box ...
+          BOXES=`/bin/echo *-*.box`
+
+          for BOX in ${BOXES}; do
+
+            # e.g. freebsd-12.3
+            NAME=`echo ${BOX} | tr "[:upper:]" "[:lower:]" | sed -e 's/.box//'`
+
+            # e.g. ansible-freebsd-12.3-amd64.box
+            mv ${BOX} ansible-${NAME}-amd64.box
+          done
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.create_version.outputs.version }}
+          files: |
+            *.box
