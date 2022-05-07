@@ -177,8 +177,13 @@ jobs:
             # e.g. freebsd-12.3
             NAME=`echo ${BOX} | tr "[:upper:]" "[:lower:]" | sed -e 's/.box//'`
 
+            MACHINE="amd64"
+            if [ echo "${NAME}" | grep -q "centos" ];
+              MACHINE="x86_64"
+            fi
+
             # e.g. ansible-freebsd-12.3-amd64.box
-            mv ${BOX} ansible-${NAME}-amd64.box
+            mv ${BOX} ansible-${NAME}-${MACHINE}.box
           done
 
       - name: Release
