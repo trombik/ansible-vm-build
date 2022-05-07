@@ -54,7 +54,7 @@ jobs:
           cache-name: packer_cache
         with:
           path: ${{ matrix.box }}/packer_cache
-          key: packer_cache-${{ matrix.box }}-{{ hashFiles('${{ matrix.box }}/box.pkr.hcl') }}
+          key: packer_cache-${{ matrix.box }}-${{ hashFiles('${{ matrix.box }}/box.pkr.hcl') }}
 
       - name: Show vagrant version
         run: |
@@ -178,7 +178,7 @@ jobs:
             NAME=`echo ${BOX} | tr "[:upper:]" "[:lower:]" | sed -e 's/.box//'`
 
             MACHINE="amd64"
-            if [ echo "${NAME}" | grep -q "centos" ]; then
+            if echo "${NAME}" | grep -q "centos"; then
               MACHINE="x86_64"
             fi
 
