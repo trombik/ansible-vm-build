@@ -187,8 +187,7 @@ jobs:
           done
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ needs.create_version.outputs.version }}
-          files: |
-            *.box
+          tag: ${{ needs.create_version.outputs.version }}
+          artifacts: "*.box"
