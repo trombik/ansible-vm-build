@@ -9,3 +9,5 @@ mkdir -p ~/.ssh
 curl -fsSLo ~/.ssh/authorized_keys https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub
 chmod 700 ~/.ssh/
 chmod 600 ~/.ssh/authorized_keys
+
+sudo pw groupadd -n ansible -M vagrant

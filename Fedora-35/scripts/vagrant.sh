@@ -17,3 +17,6 @@ else
 fi
 chown -R vagrant $HOME_DIR/.ssh;
 chmod -R go-rwsx $HOME_DIR/.ssh;
+
+sudo groupadd ansible
+sudo usermod -a -G ansible vagrant
