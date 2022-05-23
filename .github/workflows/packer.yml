@@ -37,6 +37,7 @@ jobs:
           - Ubuntu-20.04
           - Devuan-3
           - Devuan-4
+          - Debian-11
           - Fedora-35
     steps:
       - name: Checkout
