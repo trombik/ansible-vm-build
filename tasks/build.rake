@@ -45,7 +45,7 @@ end
 desc "Run rspec"
 task "test" do
   ENV["HOST"] = "virtualbox"
-  sh "rspec --pattern '../spec/**/*_spec.rb'"
+  sh "rspec -f d --pattern '../spec/**/*_spec.rb'"
   puts "Test succeeded. To upload run:"
   puts
   puts publish_command.to_s
