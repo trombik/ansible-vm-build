@@ -39,6 +39,7 @@ jobs:
           - Devuan-4
           - Debian-11
           - Fedora-35
+          - Fedora-36
     steps:
       - name: Checkout
         uses: actions/checkout@v2
