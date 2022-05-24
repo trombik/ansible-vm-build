@@ -105,7 +105,12 @@ source "virtualbox-iso" "default" {
   vboxmanage           = [
     # disable paravirtprovider
     # https://www.dbarj.com.br/en/2017/11/fixing-virtualbox-crashing-macos-on-high-load-kernel-panic/
-    ["modifyvm", "{{ .Name }}", "--paravirtprovider", "none"]
+    ["modifyvm", "{{ .Name }}", "--paravirtprovider", "none"],
+
+    # XXX disable hostiocache. too many disk I/O crashes VirtualBox.
+    # similar issue on FeeBSD was reported before.
+    # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=212128
+    ["storagectl", "{{ .Name }}", "--name", "SATA Controller", "--hostiocache", "off" ]
   ]
 }
 
