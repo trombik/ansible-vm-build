@@ -102,6 +102,11 @@ source "virtualbox-iso" "default" {
   ssh_username            = "vagrant"
   virtualbox_version_file = ".vbox_version"
   vm_name                 = "${local.vm_name}"
+  vboxmanage           = [
+    # disable paravirtprovider
+    # https://www.dbarj.com.br/en/2017/11/fixing-virtualbox-crashing-macos-on-high-load-kernel-panic/
+    ["modifyvm", "{{ .Name }}", "--paravirtprovider", "none"]
+  ]
 }
 
 build {
