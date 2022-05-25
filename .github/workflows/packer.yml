@@ -28,6 +28,10 @@ jobs:
       - pre_build
     if: ${{ (needs.pre_build.outputs.should_skip != 'true') || (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'schedule') }}
     strategy:
+      # continue all in-progress and queued jobs in the matrix even if one of
+      # jobs in the matrix fails.  otherwise, you have to run all other
+      # canceled jobs to re-run a failed job.
+      fail-fast: false
       matrix:
         box:
           - FreeBSD-13.0
