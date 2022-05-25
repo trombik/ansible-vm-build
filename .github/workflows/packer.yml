@@ -61,7 +61,7 @@ jobs:
           cache-name: packer_cache
         with:
           path: ${{ matrix.box }}/packer_cache
-          key: packer_cache-${{ matrix.box }}-${{ hashFiles('${{ matrix.box }}/box.pkr.hcl') }}
+          key: packer_cache-${{ matrix.box }}-${{ hashFiles(format('{0}/box.pkr.hcl', matrix.box)) }}
 
       - name: Show vagrant version
         run: |
