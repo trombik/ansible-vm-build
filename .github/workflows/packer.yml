@@ -38,7 +38,6 @@ jobs:
           - FreeBSD-12.3
           - OpenBSD-7.1
           - OpenBSD-7.0
-          - OpenBSD-6.9
           - Ubuntu-20.04
           - Devuan-3
           - Devuan-4
