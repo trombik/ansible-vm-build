@@ -13,7 +13,7 @@ ${fwcmd} check-state
 ${fwcmd} add 65000 pass all from any to any keep-state
 EOF
 
-sudo pkg install -y lang/python3 py38-ansible rsync
+sudo pkg install -y lang/python3 py39-ansible rsync
 
 # when the release EoLed, or no update is available, freebsd-update exits with
 # non-zero status.
