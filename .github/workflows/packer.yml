@@ -23,7 +23,7 @@ jobs:
           do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
 
   packer:
-    runs-on: macos-10.15
+    runs-on: macos-12
     needs:
       - pre_build
     if: ${{ (needs.pre_build.outputs.should_skip != 'true') || (github.event_name == 'push' && github.ref_name == 'main') || (github.event_name == 'schedule') }}
