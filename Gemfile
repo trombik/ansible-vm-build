@@ -9,6 +9,10 @@ gem "rubocop"
 gem "serverspec"
 gem "vagrant_cloud"
 
+# ed25519 support required for recent OpenSSH
+gem "bcrypt_pbkdf"
+gem "ed25519"
+
 # install the latest mime-types. failed in ubuntu-latest GitHub runner.
 #
 # SyntaxError:
