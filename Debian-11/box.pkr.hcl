@@ -11,11 +11,11 @@ variable "mirror" {
 # OS versions and ISO file
 locals {
   version_major     = "11"
-  version_minor     = "5"
+  version_minor     = "6"
   version_patch     = "0"
   code_name         = "bullseye"
   iso_checksum_type = "sha256"
-  iso_checksum      = "e307d0e583b4a8f7e5b436f8413d4707dd4242b70aea61eb08591dc0378522f3"
+  iso_checksum      = "e482910626b30f9a7de9b0cc142c3d4a079fbfa96110083be1d0b473671ce08d"
   # https://cdimage.debian.org/cdimage/release/11.3.0/amd64/iso-cd/debian-11.3.0-amd64-netinst.iso
   iso_url           = "${var.mirror}/${local.version_major}.${local.version_minor}.${local.version_patch}/amd64/iso-cd/debian-${local.version_major}.${local.version_minor}.${local.version_patch}-amd64-netinst.iso"
 }
