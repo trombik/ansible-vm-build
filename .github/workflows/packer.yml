@@ -15,7 +15,7 @@ jobs:
       should_skip: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v3.4.1
+        uses: fkirc/skip-duplicate-actions@v5.3.0
         with:
           concurrent_skipping: same_content
           skip_after_successful_duplicate: 'true'
@@ -46,7 +46,7 @@ jobs:
           - Fedora-37
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.2.0
 
       - name: Install ruby
         uses: ruby/setup-ruby@v1
@@ -98,7 +98,7 @@ jobs:
         run: |
           YYYYMMDD=`date "+%Y%m%d"`
           HHMM=`date "+%H%M"`
-          echo "::set-output name=version::${YYYYMMDD}.${HHMM}"
+          echo "version=${YYYYMMDD}.${HHMM}" >> $GITHUB_OUTPUT
 
   publish:
 
