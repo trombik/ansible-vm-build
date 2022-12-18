@@ -35,7 +35,7 @@ jobs:
       matrix:
         box:
           - FreeBSD-13.1
-          - FreeBSD-12.3
+          - FreeBSD-12.4
           - OpenBSD-7.1
           - OpenBSD-7.2
           - Ubuntu-20.04
