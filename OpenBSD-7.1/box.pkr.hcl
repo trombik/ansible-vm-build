@@ -23,7 +23,7 @@ locals {
 # image-related options
 locals {
   # on GitHub Action runner, the initial install process takes 10 minutes.
-  ssh_timeout       = "15m"
+  ssh_timeout       = "20m"
   cpus              = "2"
   memory            = "1024"
   disk_size         = "40000"
