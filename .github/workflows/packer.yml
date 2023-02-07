@@ -55,7 +55,7 @@ jobs:
           bundler-cache: true
 
       - name: Cache packer_cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: packer_cache
         with:
@@ -84,7 +84,7 @@ jobs:
           ( cd ${{ matrix.box }} && mv virtualbox.box ${{ matrix.box }}.box )
 
       - name: Upload ${{ matrix.box }}/${{ matrix.box }}.box
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: boxes
           path: ${{ matrix.box }}/${{ matrix.box }}.box
