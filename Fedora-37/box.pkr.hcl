@@ -60,7 +60,7 @@ locals {
   boot_wait         = "10s"
   ssh_timeout       = "30m"
   cpus              = "2"
-  memory            = "1024"
+  memory            = "2048"
   disk_size         = "40000"
 }
 
