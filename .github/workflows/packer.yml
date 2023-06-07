@@ -36,8 +36,8 @@ jobs:
         box:
           - FreeBSD-13.1
           - FreeBSD-12.4
-          - OpenBSD-7.1
           - OpenBSD-7.2
+          - OpenBSD-7.3
           - Ubuntu-20.04
           - Devuan-3
           - Devuan-4

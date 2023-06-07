@@ -13,9 +13,9 @@ locals {
   os_name           = "openbsd"
   arch              = "amd64"
   version_major     = "7"
-  version_minor     = "2"
+  version_minor     = "3"
   iso_checksum_type = "sha256"
-  iso_checksum      = "0369ef40a3329efcb978c578c7fdc7bda71e502aecec930a74b44160928c91d3"
+  iso_checksum      = "fdf1210ffe87213eeca5f1d317e8b19364cbae83545cdfc7845098a53fc79a60"
   iso_url           = "${var.mirror}/${local.version_major}.${local.version_minor}/${local.arch}/install${local.version_major}${local.version_minor}.iso"
   vm_name           = "packer-${local.os_name}-${local.version_major}.${local.version_minor}-${local.arch}"
 }
