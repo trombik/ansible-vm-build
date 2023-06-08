@@ -37,11 +37,13 @@ locals {
   os_name           = "fedora"
   arch              = "amd64"
   version_major     = "36"
+  version_minor     = "1"
+  version_patch     = "5"
   mirror_directory  = "releases/${local.version_major}/Server/x86_64/iso"
-  iso_name          = "Fedora-Server-dvd-x86_64-${local.version_major}-1.5.iso"
+  iso_name          = "Fedora-Server-dvd-x86_64-${local.version_major}-${local.version_minor}.${local.version_patch}.iso"
   iso_checksum      = "sha256:5edaf708a52687b09f9810c2b6d2a3432edac1b18f4d8c908c0da6bde0379148"
   iso_url           = "${var.mirror}/${local.mirror_directory}/${local.iso_name}"
-  vm_name           = "packer-${local.os_name}-${local.version_major}-${local.arch}"
+  vm_name           = "packer-${local.os_name}-${local.version_major}-${local.version_minor}-${local.version_patch}-${local.arch}"
   ks_path           = "ks-fedora.cfg"
 }
 
