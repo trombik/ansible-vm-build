@@ -8,7 +8,7 @@ when "openbsd"
     its(:exit_status) { should eq 0 }
     its(:stderr) { should eq "" }
     its(:stdout) do
-      should match(/^#{Regexp.escape("/dev/wd0")}/)
+      should match(/^#{Regexp.escape("/dev/sd0")}/)
     end
   end
 when "redhat"
